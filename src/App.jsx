@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import axios from 'axios'
+
 
 import './App.css'
 
@@ -8,7 +10,8 @@ function App() {
   const [formData, setFormData] = useState({
     username: '', 
     email: '', 
-    gender: '', 
+    gender: '',
+    place: '',
   }) 
 
   const getLocation = () => {
@@ -50,9 +53,15 @@ function App() {
      
   }
   
-  const handleSubmit= (e) =>{
+  const handleSubmit= async(e) =>{
     e.preventDefault(); 
-    console.log('FormData:', formData)
+    try{
+     await axios.post('http://localhost:6500/api/new',{...formData, place: place || 'Unknown'}) 
+     alert('Data successfully submitted') 
+     
+    }catch(error){
+      console.error('Error submitting data:', error);
+    }
     setFormData({
       username: '', 
       email: '',
